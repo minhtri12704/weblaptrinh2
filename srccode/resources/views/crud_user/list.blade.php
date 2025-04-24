@@ -1,4 +1,3 @@
-
 @extends('dashboard')
 
 @section('content')
@@ -11,8 +10,7 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Phone</th>
-                            <th>Address</th>
+                            <th>Roles</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -22,8 +20,13 @@
                                 <th>{{ $user->id }}</th>
                                 <th>{{ $user->name }}</th>
                                 <th>{{ $user->email }}</th>
-                                <th>{{ $user->phone }}</th>
-                                <th>{{ $user->address }}</th>
+                                <th>
+                                    @foreach($user->roles as $role)
+                                        <a href="{{ route('user.role', ['id' => $role->id]) }}">
+                                            {{ $role->name . '-' }}
+                                        </a>
+                                    @endforeach
+                                </th>
                                 <th>
                                     <a href="{{ route('user.readUser', ['id' => $user->id]) }}">View</a> |
                                     <a href="{{ route('user.updateUser', ['id' => $user->id]) }}">Edit</a> |
@@ -33,6 +36,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {!! $users->withQueryString()->links('pagination::bootstrap-5') !!}
             </div>
         </div>
     </main>
